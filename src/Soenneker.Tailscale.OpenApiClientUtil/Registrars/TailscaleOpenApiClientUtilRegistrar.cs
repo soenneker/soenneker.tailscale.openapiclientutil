@@ -13,6 +13,8 @@ public static class TailscaleOpenApiClientUtilRegistrar
     /// <summary>
     /// Adds <see cref="TailscaleOpenApiClientUtil"/> as a singleton service. <para/>
     /// </summary>
+    /// <param name="services">Service collection that receives the registration.</param>
+    /// <returns>The same service collection, so additional registrations can be chained.</returns>
     public static IServiceCollection AddTailscaleOpenApiClientUtilAsSingleton(this IServiceCollection services)
     {
         services.AddTailscaleOpenApiHttpClientAsSingleton()
@@ -24,6 +26,8 @@ public static class TailscaleOpenApiClientUtilRegistrar
     /// <summary>
     /// Adds <see cref="TailscaleOpenApiClientUtil"/> as a scoped service. <para/>
     /// </summary>
+    /// <param name="services">Service collection that receives the registration.</param>
+    /// <returns>The same service collection, so additional registrations can be chained.</returns>
     public static IServiceCollection AddTailscaleOpenApiClientUtilAsScoped(this IServiceCollection services)
     {
         services.AddTailscaleOpenApiHttpClientAsSingleton()

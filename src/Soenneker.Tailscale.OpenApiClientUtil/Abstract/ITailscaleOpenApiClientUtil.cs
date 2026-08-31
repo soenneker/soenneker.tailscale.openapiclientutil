@@ -6,10 +6,20 @@ using System.Threading.Tasks;
 namespace Soenneker.Tailscale.OpenApiClientUtil.Abstract;
 
 /// <summary>
-/// Exposes a cached OpenAPI client instance.
+/// Provides a lazily initialized Tailscale OpenAPI client backed by the shared authenticated HTTP client.
 /// </summary>
-public interface ITailscaleOpenApiClientUtil: IDisposable, IAsyncDisposable
+public interface ITailscaleOpenApiClientUtil : IDisposable, IAsyncDisposable
 {
+    /// <summary>
+    /// Releases the generated client wrapper owned by this utility without disposing the shared HTTP provider.
+    /// </summary>
+    new void Dispose();
+
+    /// <summary>
+    /// Asynchronously releases the generated client wrapper owned by this utility without disposing the shared HTTP provider.
+    /// </summary>
+    new ValueTask DisposeAsync();
+
     /// <summary>
     /// Returns the configured tailscale OpenAPI Client used by the Tailscale OpenAPI Client.
     /// </summary>

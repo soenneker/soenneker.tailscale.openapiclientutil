@@ -9,7 +9,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Description>A thread-safe utility for obtaining Tailscale's OpenApiClient singleton.</Description>
+        <Description>Provide a reusable generated client for Tailscale's management API.</Description>
         <Version Condition="'$(BUILD_VERSION)' == ''">4.0.0</Version>
         <Version Condition="'$(BUILD_VERSION)' != ''">$(BUILD_VERSION)</Version>
         <AssemblyName>Soenneker.Tailscale.OpenApiClientUtil</AssemblyName>
@@ -43,7 +43,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.Kiota.GenericAuthenticationProvider" Version="4.0.41" />
         <PackageReference Include="Soenneker.Tailscale.HttpClients" Version="4.0.18" />
         <PackageReference Include="Soenneker.Tailscale.OpenApiClient" Version="4.0.6" />
         <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="4.0.826" />

@@ -6,7 +6,7 @@ using Soenneker.Tailscale.OpenApiClientUtil.Abstract;
 namespace Soenneker.Tailscale.OpenApiClientUtil.Registrars;
 
 /// <summary>
-/// Registers the OpenAPI client utility for dependency injection.
+/// Registers a reusable generated client for Tailscale's management API.
 /// </summary>
 public static class TailscaleOpenApiClientUtilRegistrar
 {

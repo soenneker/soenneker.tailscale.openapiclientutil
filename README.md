@@ -1,42 +1,41 @@
 [![](https://img.shields.io/nuget/v/soenneker.tailscale.openapiclientutil.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.tailscale.openapiclientutil/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.tailscale.openapiclientutil/publish-package.yml?style=for-the-badge)](https://github.com/soenneker/soenneker.tailscale.openapiclientutil/actions/workflows/publish-package.yml)
 [![](https://img.shields.io/nuget/dt/soenneker.tailscale.openapiclientutil.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.tailscale.openapiclientutil/)
+[![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.tailscale.openapiclientutil/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.tailscale.openapiclientutil/actions/workflows/codeql.yml)
 
 # Soenneker.Tailscale.OpenApiClientUtil
 
-Exposes a cached OpenAPI client instance.
+Provides a lazily initialized `TailscaleOpenApiClient` backed by the authenticated, cached Tailscale `HttpClient`.
 
-## Install
+## Installation
 
 ```bash
 dotnet add package Soenneker.Tailscale.OpenApiClientUtil
 ```
 
-## Quick start
+## Configuration
 
-```csharp
-using Soenneker.Tailscale.OpenApiClientUtil.Registrars;
-using Microsoft.Extensions.DependencyInjection;
-
-var services = new ServiceCollection();
-var result = services.AddTailscaleOpenApiClientUtilAsSingleton();
+```json
+{
+  "Tailscale": {
+    "ApiKey": "tskey-api-..."
+  }
+}
 ```
 
-Adds `TailscaleOpenApiClientUtil` as a singleton service.
+## Usage
 
-## What you get
+```csharp
+using Soenneker.Tailscale.OpenApiClient;
+using Soenneker.Tailscale.OpenApiClient.Models;
+using Soenneker.Tailscale.OpenApiClientUtil.Abstract;
+using Soenneker.Tailscale.OpenApiClientUtil.Registrars;
 
-- `ITailscaleOpenApiClientUtil` — Exposes a cached OpenAPI client instance.
-- `TailscaleOpenApiClientUtilRegistrar` — Registers the OpenAPI client utility for dependency injection.
+services.AddTailscaleOpenApiClientUtilAsScoped();
 
-## API at a glance
+TailscaleOpenApiClient client = await tailscaleClientUtil.Get(cancellationToken);
+ListTailnetDevices200Response? response = await client.Tailnet["-"].Devices.GetAsync(
+    cancellationToken: cancellationToken);
+```
 
-| API | What it does | Result / important behavior |
-| --- | --- | --- |
-| `TailscaleOpenApiClientUtilRegistrar.AddTailscaleOpenApiClientUtilAsSingleton(services)` | Adds `TailscaleOpenApiClientUtil` as a singleton service. | The same service collection, so additional registrations can be chained. |
-| `TailscaleOpenApiClientUtilRegistrar.AddTailscaleOpenApiClientUtilAsScoped(services)` | Adds `TailscaleOpenApiClientUtil` as a scoped service. | The same service collection, so additional registrations can be chained. |
-
-## Practical notes
-
-- Reuse the registered client instead of constructing one per operation.
-- Dispose instances you own when their scope ends so held resources can be released.
+The scoped registration uses a singleton HTTP provider. Disposing the scoped utility releases its generated client wrapper without removing the shared authenticated `HttpClient`; the HTTP provider disposes that client at application shutdown.

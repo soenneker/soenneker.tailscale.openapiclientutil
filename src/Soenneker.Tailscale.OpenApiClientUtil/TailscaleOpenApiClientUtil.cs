@@ -11,6 +11,7 @@ using Soenneker.Utils.AsyncSingleton;
 
 namespace Soenneker.Tailscale.OpenApiClientUtil;
 
+/// <inheritdoc cref="ITailscaleOpenApiClientUtil" />
 public sealed class TailscaleOpenApiClientUtil : ITailscaleOpenApiClientUtil
 {
     private readonly AsyncSingleton<TailscaleOpenApiClient> _client;

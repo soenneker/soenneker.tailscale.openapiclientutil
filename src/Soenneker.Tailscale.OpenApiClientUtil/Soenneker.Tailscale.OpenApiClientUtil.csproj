@@ -47,6 +47,6 @@
 
     <ItemGroup>
         <PackageReference Include="Soenneker.Tailscale.HttpClients" Version="11.0.98" />
-        <PackageReference Include="Soenneker.Tailscale.OpenApiClient" Version="11.0.50" />
+        <PackageReference Include="Soenneker.Tailscale.OpenApiClient" Version="11.0.51" />
     </ItemGroup>
 </Project>
